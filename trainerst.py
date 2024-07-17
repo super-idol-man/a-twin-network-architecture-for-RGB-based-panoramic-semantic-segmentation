@@ -52,7 +52,7 @@ class Trainer:
         self.val_loader = DataLoader(self.val_dataset, self.settings.batch_size_test, False,
                                      num_workers=self.settings.num_workers, pin_memory=True, drop_last=False)
         self.invalid_ids = []
-        # self.label_weight = torch.load('G:/segmentation/networks/label13_weight.pth').float().to(self.device)
+        # self.label_weight = torch.load('G:/label13_weight.pth').float().to(self.device)
         # self.label_weight[self.invalid_ids] = 0
         # self.label_weight *= (self.settings.num_classes - len(self.invalid_ids)) / self.label_weight.sum()
         self.colors = np.load('D:/Structured3D/colors.npy')
@@ -71,7 +71,7 @@ class Trainer:
         self.parameters_to_train = list(self.model.parameters())
         self.optimizer = optim.Adam(self.parameters_to_train, self.settings.learning_rate)
 
-        model_dict = torch.load('G:\dep 4\experiments\panodepth\models\weights_13\model.pth')###fold 1:7
+        model_dict = torch.load('G:\\model.pth')
 
         self.depth_model = dep_Net(model_dict['height'], model_dict['width'],
                     max_depth=8)
@@ -173,7 +173,7 @@ class Trainer:
         vis_dir = ''
         self.model.eval()
         self.depth_model.eval()
-        dir = 'G:\fuse\\experiments\\'
+        dir = 'G:\\experiments\\'
         pbar = tqdm.tqdm(self.val_loader)
         pbar.set_description("testing Epoch_{}".format(self.epoch))
         cm=0
@@ -224,7 +224,7 @@ class Trainer:
         for name, iou, acc in zip(id2class, ious, accs):
             print(f'{name:20s}:    iou {iou * 100:5.2f}    /    acc {acc * 100:5.2f}')
         print(f'{"Overall":20s}:    iou {ious.mean() * 100:5.2f}    /    acc {accs.mean() * 100:5.2f}')
-        np.savez(os.path.join('G:\\fuse\\experiments\\', 'cm.npz'), cm=cm)
+        np.savez(os.path.join('G:\\experiments\\', 'cm.npz'), cm=cm)
         if dir is not None:
             file = os.path.join(dir, "result.txt")
             with open(file, 'a') as f:
@@ -381,14 +381,6 @@ class Trainer:
         pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
         model_dict.update(pretrained_dict)
         self.model.load_state_dict(model_dict)
-        # loading adam state
-        # optimizer_load_path = os.path.join(self.settings.load_weights_dir,"{}.pth".format("adam"))
-        # if os.path.isfile(optimizer_load_path):
-        #     print("Loading Adam weights")
-        #     optimizer_dict = torch.load(optimizer_load_path)
-        #     self.optimizer.load_state_dict(optimizer_dict)
-        # else:
-        #     print("Cannot find Adam weights so Adam is randomly initialized")
         path = os.path.join(self.settings.load_weights_dir, "{}.pth".format("depth_model"))
         depth_model_dict = self.depth_model.state_dict()
         pretrained_dict = torch.load(path)
