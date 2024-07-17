@@ -12,7 +12,7 @@ import datasets
 from metrics import Evaluator
 from saver import Saver
 
-parser = argparse.ArgumentParser(description="360 Degree Panorama Depth Estimation Test")
+parser = argparse.ArgumentParser(description="360 Degree Panorama semantic segmentation Test")
 
 parser.add_argument("--data_path", default="G:\\stanford2d3d\\", type=str, help="path to the dataset.")
 parser.add_argument("--dataset", default="stanford2d3d", choices=["stanford2d3d", "matterport3d"],
