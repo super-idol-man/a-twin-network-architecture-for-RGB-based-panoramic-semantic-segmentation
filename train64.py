@@ -16,8 +16,6 @@ parser.add_argument("--num_workers", type=int, default=0, help="number of datalo
 
 # model settings
 parser.add_argument("--model_name", type=str, default="panodepth", help="folder to save the model in")
-parser.add_argument("--num_layers", type=int, default=18, choices=[2, 18, 34, 50, 101],
-                    help="number of resnet layers; if 2, use mobilenetv2")
 parser.add_argument("--height", type=int, default=512, help="input image height")
 parser.add_argument("--width", type=int, default=1024, help="input image width")
 parser.add_argument("--depth", type=bool, default=False, help="input width depth")
