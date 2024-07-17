@@ -99,7 +99,7 @@ class Trainer:
         self.step = 0
         self.start_time = time.time()
         # self.validate()
-        for self.epoch in range(27, self.settings.num_epochs+1):
+        for self.epoch in range(self.epoch, self.settings.num_epochs+1):
             self.train_one_epoch()
             self.validate()
             if (self.epoch + 1) % self.settings.save_frequency == 0:
