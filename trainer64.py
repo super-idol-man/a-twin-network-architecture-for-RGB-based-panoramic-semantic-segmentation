@@ -25,9 +25,6 @@ class Trainer:
         self.settings = settings
         os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
         self.device = torch.device("cuda")
-        # self.gpu_devices = ','.join([str(id) for id in settings.gpu_devices])
-        # os.environ["CUDA_VISIBLE_DEVICES"] = self.gpu_devices
-
         self.log_path = os.path.join(self.settings.log_dir, self.settings.model_name)
 
         # checking the input height and width are multiples of 32
@@ -48,7 +45,7 @@ class Trainer:
         self.val_loader = DataLoader(self.val_dataset, self.settings.batch_size_test, False,
                                      num_workers=self.settings.num_workers, pin_memory=True, drop_last=False)
         self.invalid_ids = []
-        self.label_weight = torch.load('G:/segmentation/networks/label13_weight.pth').float().to(self.device)
+        self.label_weight = torch.load('G:/label13_weight.pth').float().to(self.device)
         self.label_weight[self.invalid_ids] = 0
         self.label_weight *= (self.settings.num_classes - len(self.invalid_ids)) / self.label_weight.sum()
         self.colors = np.load('G:/Stanford2D3D_sem/colors.npy')
@@ -67,7 +64,7 @@ class Trainer:
         self.parameters_to_train = list(self.model.parameters())
         self.optimizer = optim.Adam(self.parameters_to_train, self.settings.learning_rate)
 
-        model_dict = torch.load('G:\dep 4\experiments_1024_f1\panodepth\models\weights_7\model.pth')
+        model_dict = torch.load('G:\model.pth')
 
         self.depth_model = dep_Net(model_dict['height'], model_dict['width'],
                     max_depth=8)
@@ -170,7 +167,7 @@ class Trainer:
         vis_dir = ''#
         self.model.eval()
         self.depth_model.eval()
-        dir = 'G:\\fuse\\experiments\\'
+        dir = 'G:\\experiments\\'
         pbar = tqdm.tqdm(self.val_loader)
         pbar.set_description("testing Epoch_{}".format(self.epoch))
         cm=0
@@ -221,7 +218,7 @@ class Trainer:
         for name, iou, acc in zip(id2class, ious, accs):
             print(f'{name:20s}:    iou {iou * 100:5.2f}    /    acc {acc * 100:5.2f}')
         print(f'{"Overall":20s}:    iou {ious.mean() * 100:5.2f}    /    acc {accs.mean() * 100:5.2f}')
-        np.savez(os.path.join('G:\\fuse\\experiments\\', 'cm.npz'), cm=cm)
+        np.savez(os.path.join('G:\\experiments\\', 'cm.npz'), cm=cm)
         if dir is not None:
             file = os.path.join(dir, "result.txt")
             with open(file, 'a') as f:
@@ -391,7 +388,7 @@ class Trainer:
     def load_tea(self):
         """Load teacher model from disk
         """
-        load_weights_dir = os.path.expanduser("D:\experiments_tea_s2d3d_8\\panodepth\\models\\weights_2\\")
+        load_weights_dir = os.path.expanduser("D:\models\\weights_2\\")
         assert os.path.isdir(load_weights_dir), \
             "Cannot find folder {}".format(load_weights_dir)
         print("loading model from folder {}".format(load_weights_dir))
