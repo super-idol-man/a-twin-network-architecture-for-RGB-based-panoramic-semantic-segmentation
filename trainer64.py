@@ -58,7 +58,7 @@ class Trainer:
 
         self.model = Net(self.settings.height, self.settings.width, invalid_ids=self.invalid_ids,
                          pretrained=self.settings.imagenet_pretrained, num_classes=self.settings.num_classes,
-                         )#fusion_type=self.settings.fusion, se_in_fusion=self.settings.se_in_fusion
+                         )
 
         self.model.to(self.device)
         self.parameters_to_train = list(self.model.parameters())
