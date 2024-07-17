@@ -18,7 +18,7 @@ parser.add_argument("--data_path", default="G:\\stanford2d3d\\", type=str, help=
 parser.add_argument("--dataset", default="stanford2d3d", choices=["stanford2d3d", "matterport3d"],
                     type=str, help="dataset to evaluate on.")
 
-parser.add_argument("--load_weights_dir",default='G:\\fuse\\experiments_dmlp_best\\panodepth\\models\\',
+parser.add_argument("--load_weights_dir",default='G:\\models\\',
                     type=str, help="folder of model to load")
 
 parser.add_argument("--num_workers", type=int, default=0, help="number of dataloader workers")
