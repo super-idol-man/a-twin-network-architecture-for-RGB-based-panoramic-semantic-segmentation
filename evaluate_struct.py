@@ -18,7 +18,7 @@ parser.add_argument("--data_path", default="D:\Structured3D\\", type=str, help="
 parser.add_argument("--dataset", default="struct3d", choices=["stanford2d3d","struct3d"],
                     type=str, help="dataset to evaluate on.")
 
-parser.add_argument("--load_weights_dir",default=r'G:\fuse\experiments\panodepth\models\',
+parser.add_argument("--load_weights_dir",default=r'G:\experiments\models\',
                     type=str, help="folder of model to load")
 
 parser.add_argument("--num_workers", type=int, default=0, help="number of dataloader workers")
@@ -33,7 +33,7 @@ settings = parser.parse_args()
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    id2color = np.load("G:\\fuse\\datasets\\colors.npy")
+    id2color = np.load("G:\colors.npy")
     id2color = id2color[1:]
     load_weights_folder = os.path.expanduser(settings.load_weights_dir)
     model_path = os.path.join(load_weights_folder, "model_iou_best.pth")
@@ -78,7 +78,7 @@ def main():
     pbar = tqdm.tqdm(test_loader)
     pbar.set_description("Testing")
     cm = 0
-    vis_dir = 'G:\\fuse\\vis_struct3d\\'
+    vis_dir = 'G:\\vis_struct3d\\'
     with torch.no_grad():
         for batch_idx, inputs in enumerate(pbar):
             rgb = inputs["normalized_rgb"].to(device)
