@@ -12,7 +12,7 @@ import datasets
 from metrics import Evaluator
 from saver import Saver
 
-parser = argparse.ArgumentParser(description="360 Degree Panorama Depth Estimation Test")
+parser = argparse.ArgumentParser(description="360 Degree Panorama semantic segmentation Test")
 
 parser.add_argument("--data_path", default="D:\Structured3D\\", type=str, help="path to the dataset.")
 parser.add_argument("--dataset", default="struct3d", choices=["stanford2d3d","struct3d"],
