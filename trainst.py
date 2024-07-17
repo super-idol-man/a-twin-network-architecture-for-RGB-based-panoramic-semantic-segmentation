@@ -32,7 +32,7 @@ parser.add_argument("--imagenet_pretrained",default=True#action="store_true" #
                     , help="if set, use imagenet pretrained parameters")
 
 # loading and logging settings
-parser.add_argument("--load_weights_dir",default='G:\\fuse\\experiments\\panodepth\\models\\latest\\',
+parser.add_argument("--load_weights_dir",default='G:\experiments\\',
                     type=str, help="folder of model to load")#
 parser.add_argument("--log_dir", type=str, default=os.path.join(os.path.dirname(__file__), "experiments"), help="log directory")
 parser.add_argument("--log_frequency", type=int, default=200, help="number of batches between each tensorboard log")
